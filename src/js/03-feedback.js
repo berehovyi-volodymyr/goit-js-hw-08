@@ -31,9 +31,8 @@ function onButton(e) {
 function reload() {
   const savedMessageJSON = localStorage.getItem(LOCALSTORAGE_KEY);
   if (savedMessageJSON) {
-    const savedMessage = JSON.parse(savedMessageJSON);
-
-    ref.email.value = savedMessage.email;
-    ref.message.value = savedMessage.message;
+      const savedMessage = JSON.parse(savedMessageJSON);
+      ref.email.value = savedMessage.email || '';
+      ref.message.value = savedMessage.message || '';
   }
 }
