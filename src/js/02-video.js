@@ -12,7 +12,7 @@ function catchSecond ({seconds}) {
     localStorage.setItem(LOCALSTORAGE_KEY, seconds)
 };
 
-const time = localStorage.getItem(LOCALSTORAGE_KEY)
+const time = localStorage.getItem(LOCALSTORAGE_KEY) || 0;
 
 player.setCurrentTime(time)
 
