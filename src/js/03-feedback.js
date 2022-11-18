@@ -7,32 +7,41 @@ const ref = {
 };
 
 const LOCALSTORAGE_KEY = 'feedback-form-state';
-const formData = {};
 
 ref.form.addEventListener('input', throttle(onInputs, 500));
 ref.form.addEventListener('submit', onButton);
 
 reload();
 
-function onInputs(e) {
-  formData[e.target.name] = e.target.value;
-  const saveFormdata = JSON.stringify(formData);
+function onInputs() {
+  const email = ref.form.elements.email.value;
+  const message = ref.form.elements.message.value;
+
+  const saveFormdata = JSON.stringify({ email, message });
   localStorage.setItem(LOCALSTORAGE_KEY, saveFormdata);
 }
 
 function onButton(e) {
-    e.preventDefault();
+  e.preventDefault();
+  const formData = e.target.elements;
+  const email = formData.email.value;
+  const message = formData.message.value;
+
+  if (email.trim() !== '' && message.trim() !== '') {
+    console.log({ email, message })
     e.target.reset();
-    const result = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY))
-    console.log(result)
     localStorage.removeItem(LOCALSTORAGE_KEY);
+  }
+  else {
+     alert("Усі поля повинні бути заповненні")
+  }
 }
 
 function reload() {
   const savedMessageJSON = localStorage.getItem(LOCALSTORAGE_KEY);
   if (savedMessageJSON) {
-      const savedMessage = JSON.parse(savedMessageJSON);
-      ref.email.value = savedMessage.email || '';
-      ref.message.value = savedMessage.message || '';
+    const savedMessage = JSON.parse(savedMessageJSON);
+    ref.email.value = savedMessage.email || '';
+    ref.message.value = savedMessage.message || '';
   }
 }
